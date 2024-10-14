@@ -1,0 +1,28 @@
+{
+  "name": "n2ngin-indexity",
+  "version": "1.0.0",
+  "description": "Tool to build indexes for structure tree base on metadata",
+  "main": "index.js",
+  "scripts": {
+    "///1": "/// dev test commands",
+    "test": "jest",
+    "///2": "/// build commands",
+    "build": "tsc",
+    "tag-version": "npm run build && ts-node ./support/tag-version.ts"
+  },
+  "keywords": [],
+  "author": "nmhillusion",
+  "license": "MIT",
+  "dependencies": {
+    "js-yaml": "^4.1.0",
+    "path": "^0.12.7"
+  },
+  "devDependencies": {
+    "@types/jest": "^29.5.13",
+    "@types/js-yaml": "^4.0.9",
+    "jest": "^29.7.0",
+    "ts-jest": "^29.2.5",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.6.3"
+  }
+}
