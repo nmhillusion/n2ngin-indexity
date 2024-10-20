@@ -1,0 +1,10 @@
+basic:
+  name: 'User 2'
+  email: 'user2@localhost'
+  password: 'testof_user2'
+  password_confirmation: 'testof_user2'
+
+extended:
+  education: 'University of Test of User 2'
+  location: 'Test City 2'
+  bio: 'Test Bio 2'
