@@ -6,12 +6,7 @@ import { IndexNode, NodeMetadata } from "../model/node.model";
 function parseMetadata(rawData: unknown, path_: string) : NodeMetadata {
   const tags_ = (rawData["tags"] as string)?.split("\,|\;").map(s => s.trim()).filter(Boolean);
   const parsedPath = path.parse(path_);
-
-  console.log({
-    parsedPath
-  });
   
-
   return {
     author: rawData["author"],
     bannerPath: rawData["bannerPath"],

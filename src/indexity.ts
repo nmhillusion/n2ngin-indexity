@@ -40,7 +40,7 @@ export class Indexity {
 
       currentNode = {
         path: startPoint,
-        children: [],
+        children: null,
         metadata: {
           author: "",
           bannerPath: "",
