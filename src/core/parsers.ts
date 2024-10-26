@@ -1,16 +1,24 @@
 import * as fs from "fs";
 import * as jsYaml from "js-yaml";
+import * as path from "path";
 import { IndexNode, NodeMetadata } from "../model/node.model";
 
-function parseMetadata(rawData: unknown) : NodeMetadata {
+function parseMetadata(rawData: unknown, path_: string) : NodeMetadata {
   const tags_ = (rawData["tags"] as string)?.split("\,|\;").map(s => s.trim()).filter(Boolean);
+  const parsedPath = path.parse(path_);
+
+  console.log({
+    parsedPath
+  });
+  
+
   return {
     author: rawData["author"],
     bannerPath: rawData["bannerPath"],
     tags: tags_ || [],
     publishDate: rawData["publishDate"],
-    summary: rawData["summary"],
-    title: rawData["title"]
+    summary: rawData["summary"] || "",
+    title: rawData["title"] || parsedPath.name || parsedPath.dir
   }
 }
 
@@ -20,7 +28,7 @@ export function parseYamlToIndexNode(path_: string) : IndexNode {
   const rawData = jsYaml.load(content_);
   return {
     path: path_,
-    metadata: parseMetadata(rawData),
+    metadata: parseMetadata(rawData, path_),
     rawData,
     children: []
   };

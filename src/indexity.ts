@@ -36,10 +36,19 @@ export class Indexity {
     }
 
     if (!currentNode) {
+      const parsedPath = path.parse(startPoint);
+
       currentNode = {
         path: startPoint,
         children: [],
-        metadata: null,
+        metadata: {
+          author: "",
+          bannerPath: "",
+          publishDate: "",
+          summary: "",
+          tags: [],
+          title: parsedPath.name || parsedPath.dir
+        },
         rawData: null
       }
     }
