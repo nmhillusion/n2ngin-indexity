@@ -21,6 +21,7 @@ export function parseYamlToIndexNode(path_: string) : IndexNode {
   return {
     path: path_,
     metadata: parseMetadata(rawData),
-    rawData
+    rawData,
+    children: []
   };
 }

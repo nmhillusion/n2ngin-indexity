@@ -4,16 +4,23 @@ import * as path from "path";
 test("build", async () => {
   const index_ = new Indexity();
 
-  const outContent = await index_
+  const result_ = await index_
     .config(path.join(__dirname, "resource"))
     .build();
 
-  console.log({ outContent });
-  expect(outContent).not.toBeNull();
-  expect(outContent).toHaveProperty("metadata");
-  expect(outContent).toHaveProperty("operator");
+  console.log("indexity: ", result_);
+  expect(result_).not.toBeNull();
+  expect(result_).toHaveProperty("metadata");
+  expect(result_).toHaveProperty("operator");
 
-  const searchCodeResult = outContent.operator.search("code");
+  const searchCodeResult = result_.operator.search("code");
+  const listResult = result_.operator.listAll();
 
   console.log({ searchCodeResult });
+  console.log({
+    listResult
+  });
+
+  console.log(JSON.stringify(result_));
+  
 });

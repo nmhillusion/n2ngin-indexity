@@ -16,23 +16,37 @@ export class Indexity {
   }
 
   private walkThroughDir(startPoint: string) {
-    let data: IndexNode[] = [];
+    let currentNode: IndexNode = null;
+    let children: IndexNode[] = [];
 
-    if (String(startPoint).match(/.ya?ml$/i)) {
-      data.push(parseYamlToIndexNode(startPoint));
-    } else if (fs.lstatSync(startPoint).isDirectory()) {
-      const childrenResult = fs
-        .readdirSync(startPoint)
-        .map((it) => path.join(startPoint, it))
-        .map((it) => this.walkThroughDir(it))
-        .reduce((prev, curr) => {
-          return prev.concat(curr);
-        }, []);
-
-      data = childrenResult;
+    if (!fs.lstatSync(startPoint).isDirectory()) {
+      throw Error("Entry point must be a directory");
     }
 
-    return data;
+    const childrenResult = fs
+      .readdirSync(startPoint)
+      .map((it) => path.join(startPoint, it));
+
+    for (const itemPath_ of childrenResult) {
+      if (fs.lstatSync(itemPath_).isDirectory()) {
+        children.push(this.walkThroughDir(itemPath_));
+      } else if (path.basename(itemPath_).match(/\.ya?ml$/i)) {
+        currentNode = parseYamlToIndexNode(itemPath_);
+      }
+    }
+
+    if (!currentNode) {
+      currentNode = {
+        path: startPoint,
+        children: [],
+        metadata: null,
+        rawData: null
+      }
+    }
+
+    currentNode.children = children;
+
+    return currentNode;
   }
 
   public async build() {

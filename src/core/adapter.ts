@@ -1,13 +1,21 @@
-import { SearchIndexityBridge } from "./search.bridge";
+import { ListIndexityAdapter } from "../adapters/list.adapter";
+import { SearchIndexityAdapter } from "../adapters/search.adapter";
+import { IndexNode } from "../model/node.model";
 
 export class IndexityAdapter {
-  #searchBridge: SearchIndexityBridge;
+  #searchAdapter: SearchIndexityAdapter;
+  #listAdapter: ListIndexityAdapter;
 
-  constructor(metadata: any) {
-    this.#searchBridge = new SearchIndexityBridge(metadata);
+  constructor(entryNode: IndexNode) {
+    this.#searchAdapter = new SearchIndexityAdapter(entryNode);
+    this.#listAdapter = new ListIndexityAdapter(entryNode);
   }
 
   search(keyword: string) {
-    return this.#searchBridge.search(keyword);
+    return this.#searchAdapter.search(keyword);
+  }
+
+  listAll() {
+    return this.#listAdapter.getAll();
   }
 }
