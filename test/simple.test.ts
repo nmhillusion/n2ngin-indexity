@@ -10,7 +10,8 @@ test("build", async () => {
 
   console.log({ outContent });
   expect(outContent).not.toBeNull();
-  expect(outContent).not.toHaveLength(0);
+  expect(outContent).toHaveProperty("metadata");
+  expect(outContent).toHaveProperty("operator");
 
   const searchCodeResult = outContent.operator.search("code");
 

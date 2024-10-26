@@ -1,4 +1,4 @@
-import { BaseIndexityBridge } from "./adapter";
+import { BaseIndexityBridge } from "./base.bridge";
 
 export class SearchIndexityBridge extends BaseIndexityBridge {
   constructor(metadata: any) {

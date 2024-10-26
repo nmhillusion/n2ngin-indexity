@@ -1,13 +1,5 @@
 import { SearchIndexityBridge } from "./search.bridge";
 
-export class BaseIndexityBridge {
-  constructor(protected metadata: any) {}
-
-  toString() {
-    console.log({ metadata: this.metadata });
-  }
-}
-
 export class IndexityAdapter {
   #searchBridge: SearchIndexityBridge;
 

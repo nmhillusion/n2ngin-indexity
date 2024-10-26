@@ -2,6 +2,7 @@ import * as fs from "fs";
 import * as jsYaml from "js-yaml";
 import * as path from "path";
 import { IndexityAdapter } from "./core/adapter";
+import { IndexNode, NodeMetadata } from "./model/node.model";
 
 export class Indexity {
   private srcDir: string;
@@ -14,16 +15,30 @@ export class Indexity {
     return this;
   }
 
-  private loadYaml(path_: string) {
+  private parseMetadata(rawData: unknown) : NodeMetadata {
+    const tags_ = (rawData["tags"] as string)?.split("\,|\;").map(s => s.trim()).filter(Boolean);
+    return {
+      author: rawData["author"],
+      bannerPath: rawData["bannerPath"],
+      tags: tags_ || [],
+      publishDate: rawData["publishDate"],
+      summary: rawData["summary"],
+      title: rawData["title"]
+    }
+  }
+
+  private loadYaml(path_: string) : IndexNode {
     const content_ = fs.readFileSync(path_, "utf8").toString();
+    const rawData = jsYaml.load(content_);
     return {
       path: path_,
-      metadata: jsYaml.load(content_)
+      metadata: this.parseMetadata(rawData),
+      rawData
     };
   }
 
   private walkThroughDir(startPoint: string) {
-    let data: unknown[] = [];
+    let data: IndexNode[] = [];
 
     if (String(startPoint).match(/.ya?ml$/i)) {
       data.push(this.loadYaml(startPoint));
