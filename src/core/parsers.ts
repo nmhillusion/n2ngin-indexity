@@ -47,7 +47,7 @@ export function parseWalkThroughDir(startPoint: string) {
 
   for (const itemPath_ of childrenResult) {
     if (fs.lstatSync(itemPath_).isDirectory()) {
-      children.push(this.walkThroughDir(itemPath_));
+      children.push(parseWalkThroughDir(itemPath_));
     } else if (path.basename(itemPath_).match(METADATA_REGEXP_PATTERN)) {
       currentNode = parseYamlToIndexNode(itemPath_);
     }

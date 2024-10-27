@@ -31,8 +31,8 @@ test("build", async () => {
   expect(result_).toHaveProperty("metadata");
   expect(result_).toHaveProperty("operator");
 
-  const searchCodeResult = result_.operator.search("code");
-  const listResult = result_.operator.listAll();
+  const searchCodeResult = result_.operator.search.search("code");
+  const listResult = result_.operator.list.getAll();
   const basicUIHtml = result_.operator.html.basicUI();
 
   console.log({ searchCodeResult });

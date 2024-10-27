@@ -15,12 +15,12 @@ export class IndexityAdapter {
     this.#htmlAdapter = new HtmlIndexityAdapter(entryNode, indexityOptions);
   }
 
-  search(keyword: string) {
-    return this.#searchAdapter.search(keyword);
+  get search() {
+    return this.#searchAdapter;
   }
 
-  listAll() {
-    return this.#listAdapter.getAll();
+  get list() {
+    return this.#listAdapter;
   }
 
   get html() {
