@@ -53,15 +53,49 @@ export class HtmlIndexityAdapter extends BaseIndexityAdapter {
           padding-left: 20px;
         }`
   ) {
+    return this.buildDetailUI({
+      css: customStyle,
+      js: ``,
+      layout: {
+        html: `<div id="indexity--table-of-content">
+          {{nodePlaceholderName}}
+        </div>`,
+        nodePlaceholderName: "{{nodePlaceholderName}}",
+      },
+      singleNodeBuilder: this.buildSingleNode.bind(this),
+    });
+  }
+
+  buildDetailUI({
+    css,
+    js,
+    layout,
+    singleNodeBuilder = this.buildSingleNode.bind(this),
+  }: {
+    css: string;
+    js: string;
+    layout: {
+      html: string;
+      nodePlaceholderName: string;
+    };
+    singleNodeBuilder(node_: IndexNode, outerTagName: string): string;
+  }) {
     return `
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <base href="${this.indexityOptions.baseHref}" target="_self">
     <style class="indexity-style">
-      ${customStyle}
+      ${css}
     </style>
     
-    ${this.buildSingleNode(this.entryNode, "div")}
+    ${layout.html.replace(
+      layout.nodePlaceholderName,
+      singleNodeBuilder(this.entryNode, "div")
+    )}
+
+    <script class="indexity-script" type="text/javascript">
+      ${js}
+    </script>
     `;
   }
 }
