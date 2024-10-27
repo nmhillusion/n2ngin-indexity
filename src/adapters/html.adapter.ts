@@ -48,18 +48,26 @@ export class HtmlIndexityAdapter extends BaseIndexityAdapter {
   }
 
   basicUI(
-    customStyle: string = `
+    customCss: string = `
         .children {
           padding-left: 20px;
         }`
   ) {
     return this.buildDetailUI({
-      css: customStyle,
-      js: ``,
       layout: {
-        html: `<div id="indexity--table-of-content">
+        html: `
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <base href="${this.indexityOptions.baseHref}" target="_self">
+        <title>${this.entryNode.metadata?.title}</title>
+        <style class="indexity-style">
+          ${customCss}
+        </style>
+
+        <div id="indexity--table-of-content">
           {{nodePlaceholderName}}
-        </div>`,
+        </div>
+        `,
         nodePlaceholderName: "{{nodePlaceholderName}}",
       },
       singleNodeBuilder: this.buildSingleNode.bind(this),
@@ -67,35 +75,18 @@ export class HtmlIndexityAdapter extends BaseIndexityAdapter {
   }
 
   buildDetailUI({
-    css,
-    js,
     layout,
     singleNodeBuilder = this.buildSingleNode.bind(this),
   }: {
-    css: string;
-    js: string;
     layout: {
       html: string;
       nodePlaceholderName: string;
     };
     singleNodeBuilder(node_: IndexNode, outerTagName: string): string;
   }) {
-    return `
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <base href="${this.indexityOptions.baseHref}" target="_self">
-    <style class="indexity-style">
-      ${css}
-    </style>
-    
-    ${layout.html.replace(
+    return layout.html.replace(
       layout.nodePlaceholderName,
       singleNodeBuilder(this.entryNode, "div")
-    )}
-
-    <script class="indexity-script" type="text/javascript">
-      ${js}
-    </script>
-    `;
+    );
   }
 }
