@@ -43,4 +43,10 @@ test("build", async () => {
   writeToFile(outPath_, basicUIHtml);
 
   console.log(JSON.stringify(result_));
+
+  {
+    const sitemapContent = fs.readFileSync(outPath_, "utf8");
+    expect(sitemapContent).not.toBeNull();
+    console.log(sitemapContent);
+  }
 });
