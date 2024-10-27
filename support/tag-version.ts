@@ -1,6 +1,8 @@
 import { exec } from "child_process";
 import { version } from "../package.json";
 
+console.log("tagged for version: ", version);
+
 const command = `git tag v${version} && git push --tag`;
 
 const process_ = exec(command);
