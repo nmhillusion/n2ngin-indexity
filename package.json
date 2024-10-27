@@ -1,6 +1,6 @@
 {
   "name": "@nmhillusion/n2ngin-indexity",
-  "version": "2024.10.1",
+  "version": "2024.10.2",
   "description": "Tool to build indexes for structure tree base on metadata",
   "main": "./dist/indexity.js",
   "types": "./dist/indexity.d.ts",
@@ -11,8 +11,8 @@
     "///1": "/// dev test commands",
     "test": "jest",
     "///2": "/// build commands",
-    "build": "tsc && ts-node ./support/build-publish-package-json.ts && ts-node ./support/tag-version.ts ",
-    "tag-version": "npm run build && ts-node ./support/tag-version.ts"
+    "build": "tsc",
+    "prod": "npm run build && ts-node ./support/build-publish-package-json.ts && ts-node ./support/tag-version.ts "
   },
   "keywords": [],
   "author": "nmhillusion",

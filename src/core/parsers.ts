@@ -33,8 +33,8 @@ export function parseYamlToIndexNode(path_: string): IndexNode {
   };
 }
 
-export function parseWalkThroughDir(startPoint: string) {
-  let currentNode: IndexNode = null;
+export function parseWalkThroughDir(startPoint: string): IndexNode | null {
+  let currentNode: IndexNode | null = null;
   let children: IndexNode[] = [];
 
   if (!fs.lstatSync(startPoint).isDirectory()) {
@@ -47,13 +47,17 @@ export function parseWalkThroughDir(startPoint: string) {
 
   for (const itemPath_ of childrenResult) {
     if (fs.lstatSync(itemPath_).isDirectory()) {
-      children.push(parseWalkThroughDir(itemPath_));
+      const child_ = parseWalkThroughDir(itemPath_);
+
+      if (child_) {
+        children.push(child_);
+      }
     } else if (path.basename(itemPath_).match(METADATA_REGEXP_PATTERN)) {
       currentNode = parseYamlToIndexNode(itemPath_);
     }
   }
 
-  if (!currentNode) {
+  if (!currentNode && 0 < children.length) {
     const parsedPath = path.parse(startPoint);
 
     currentNode = {
@@ -71,7 +75,9 @@ export function parseWalkThroughDir(startPoint: string) {
     };
   }
 
-  currentNode.children = children;
+  if (currentNode) {
+    currentNode.children = children;
+  }
 
   return currentNode;
 }
