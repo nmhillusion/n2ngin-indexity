@@ -1,10 +1,6 @@
-basic:
-  name: 'Test User'
-  email: 'test@localhost'
-  password: 'test'
-  password_confirmation: 'test'
-
-extended:
-  education: 'University of Test'
-  location: 'Test City'
-  bio: 'Test Bio'
+title: Title of User 1
+summary: Description of User 1
+author: Test Author
+tags: taga, tagb, tagc
+publishDate: 2024-01-01
+bannerPath: banner2.png

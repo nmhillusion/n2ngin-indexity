@@ -15,7 +15,16 @@ function writeToFile(path_: string, content: string) {
 test("build", async () => {
   const index_ = new Indexity();
 
-  const result_ = await index_.config(path.join(__dirname, "resource")).build();
+  const srcDir_ = path.join(__dirname, "resource");
+  const outPath_ = path.join(__dirname, "output", "sitemap.html");
+
+  const result_ = await index_
+    .config({
+      srcDir: srcDir_,
+      baseHref: ".",
+      relativeTo: path.dirname(outPath_),
+    })
+    .build();
 
   console.log("indexity: ", result_);
   expect(result_).not.toBeNull();
@@ -31,7 +40,7 @@ test("build", async () => {
     listResult,
   });
 
-  writeToFile(path.join(__dirname, "output", "sitemap.html"), basicUIHtml);
+  writeToFile(outPath_, basicUIHtml);
 
   console.log(JSON.stringify(result_));
 });

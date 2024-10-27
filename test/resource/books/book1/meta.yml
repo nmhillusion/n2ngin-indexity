@@ -1,8 +1,6 @@
-basic:
-  name: "Clean Code"
-  author: Alex
-  publishedYear: 2008
-
-extended:
-  pages: 203
-  topic: programming,code,algorithm
+title: Title of Book 1
+summary: Description of Book 1
+author: Test Author
+tags: tag1, tag2
+publishDate: 2022-01-01
+bannerPath: banner.png

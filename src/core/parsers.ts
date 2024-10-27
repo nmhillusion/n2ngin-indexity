@@ -3,6 +3,8 @@ import * as jsYaml from "js-yaml";
 import * as path from "path";
 import { IndexNode, NodeMetadata } from "../model/node.model";
 
+export const METADATA_REGEXP_PATTERN = /\bmeta(data)?\.ya?ml$/i;
+
 function parseMetadata(rawData: unknown, path_: string) : NodeMetadata {
   const tags_ = (rawData["tags"] as string)?.split("\,|\;").map(s => s.trim()).filter(Boolean);
   const parsedPath = path.parse(path_);
