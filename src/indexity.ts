@@ -2,18 +2,13 @@ import { IndexityAdapter } from "./core/adapter";
 import {
   parseWalkThroughDir
 } from "./core/parsers";
-
-export interface IndexityOptions {
-  srcDir?: string;
-  relativeTo: string;
-  baseHref?: string;
-}
+import { IndexityOption } from "./model/indexity.option";
 
 export class Indexity {
-  private options: IndexityOptions;
+  private options: IndexityOption;
 
   public config(
-    options: IndexityOptions = {
+    options: IndexityOption = {
       relativeTo: process.cwd(),
       baseHref: ".",
     }

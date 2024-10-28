@@ -1,7 +1,7 @@
 import { HtmlIndexityAdapter } from "../adapters/html.adapter";
 import { ListIndexityAdapter } from "../adapters/list.adapter";
 import { SearchIndexityAdapter } from "../adapters/search.adapter";
-import { IndexityOptions } from "../indexity";
+import { IndexityOption } from "../model/indexity.option";
 import { IndexNode } from "../model/node.model";
 
 export class IndexityAdapter {
@@ -9,7 +9,7 @@ export class IndexityAdapter {
   #listAdapter: ListIndexityAdapter;
   #htmlAdapter: HtmlIndexityAdapter;
 
-  constructor(entryNode: IndexNode, indexityOptions: IndexityOptions) {
+  constructor(entryNode: IndexNode, indexityOptions: IndexityOption) {
     this.#searchAdapter = new SearchIndexityAdapter(entryNode, indexityOptions);
     this.#listAdapter = new ListIndexityAdapter(entryNode, indexityOptions);
     this.#htmlAdapter = new HtmlIndexityAdapter(entryNode, indexityOptions);
