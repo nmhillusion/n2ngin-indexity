@@ -11,8 +11,8 @@
     "///1": "/// dev test commands",
     "test": "jest",
     "///2": "/// build commands",
-    "build": "tsc",
-    "prod": "npm run build && ts-node ./support/build-publish-package-json.ts && ts-node ./support/tag-version.ts "
+    "build": "tsc && ts-node ./support/build-publish-package-json.ts",
+    "prod": "npm run build && ts-node ./support/tag-version.ts "
   },
   "keywords": [],
   "author": "nmhillusion",
