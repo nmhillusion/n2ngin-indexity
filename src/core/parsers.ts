@@ -41,17 +41,42 @@ function getLinkForPostFromRawData(rawData: unknown): LinkForPostType | string {
   return linkForPost;
 }
 
+function getSummaryOfPost(
+  rawData: unknown,
+  linkForPost: LinkForPostType | string,
+  path_: string
+): string {
+  if ("object" == typeof rawData && rawData) {
+    if ("summary" in rawData) {
+      return rawData["summary"] as string;
+    }
+  }
+
+  if (linkForPost === LinkForPostType.INDEX) {
+    const postPath = path.resolve(path.dirname(path_), linkForPost);
+
+    if (fs.existsSync(postPath)) {
+      return (
+        fs.readFileSync(postPath, "utf8").replace(/<.+?>/g, "").slice(0, 300) +
+        " ..."
+      ).trim();
+    }
+  }
+
+  return "";
+}
+
 function parseMetadata(rawData: unknown, path_: string): NodeMetadata {
   const parsedPath = path.parse(path_);
-
+  const linkForPost = getLinkForPostFromRawData(rawData);
   return {
     author: rawData["author"],
     bannerPath: rawData["bannerPath"],
     tags: getTagsFromRawData(rawData),
     publishDate: rawData["publishDate"],
-    summary: rawData["summary"] || "",
+    summary: getSummaryOfPost(rawData, linkForPost, path_) || "",
     title: rawData["title"] || parsedPath.name || parsedPath.dir,
-    linkForPost: getLinkForPostFromRawData(rawData),
+    linkForPost,
   } as NodeMetadata;
 }
 
