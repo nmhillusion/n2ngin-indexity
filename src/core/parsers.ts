@@ -5,13 +5,20 @@ import { IndexNode, LinkForPostType, NodeMetadata } from "../model/node.model";
 
 export const METADATA_REGEXP_PATTERN = /\bmeta(data)?\.ya?ml$/i;
 
-function parseMetadata(rawData: unknown, path_: string): NodeMetadata {
-  const tags_ = (rawData["tags"] as string)
-    ?.split(",|;")
-    .map((s) => s.trim())
-    .filter(Boolean);
-  const parsedPath = path.parse(path_);
+function getTagsFromRawData(rawData: unknown): string[] {
+  if ("object" == typeof rawData && rawData) {
+    if ("tags" in rawData) {
+      return (rawData["tags"] as string)
+        ?.split(",|;")
+        .map((s) => s.trim())
+        .filter(Boolean);
+    }
+  }
 
+  return [];
+}
+
+function getLinkForPostFromRawData(rawData: unknown): LinkForPostType | string {
   let linkForPost: LinkForPostType | string = LinkForPostType.INDEX;
 
   if ("object" == typeof rawData && rawData) {
@@ -31,14 +38,20 @@ function parseMetadata(rawData: unknown, path_: string): NodeMetadata {
     }
   }
 
+  return linkForPost;
+}
+
+function parseMetadata(rawData: unknown, path_: string): NodeMetadata {
+  const parsedPath = path.parse(path_);
+
   return {
     author: rawData["author"],
     bannerPath: rawData["bannerPath"],
-    tags: tags_ || [],
+    tags: getTagsFromRawData(rawData),
     publishDate: rawData["publishDate"],
     summary: rawData["summary"] || "",
     title: rawData["title"] || parsedPath.name || parsedPath.dir,
-    linkForPost,
+    linkForPost: getLinkForPostFromRawData(rawData),
   } as NodeMetadata;
 }
 
