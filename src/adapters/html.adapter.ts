@@ -31,6 +31,7 @@ export class HtmlIndexityAdapter extends BaseIndexityAdapter {
   private buildTitleUiOfNode(node_: IndexNode) {
     console.log({
       title: node_.metadata?.title,
+      path: node_.path,
       linkForPost: node_.metadata?.linkForPost,
     });
 
