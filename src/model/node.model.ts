@@ -16,6 +16,6 @@ export interface IndexNode {
 }
 
 export enum LinkForPostType {
-  NONE,
+  NONE = null,
   INDEX = "index.html",
 }

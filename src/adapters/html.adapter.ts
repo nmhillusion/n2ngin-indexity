@@ -1,5 +1,5 @@
 import * as path from "path";
-import { IndexNode } from "../model/node.model";
+import { IndexNode, LinkForPostType } from "../model/node.model";
 import { BaseIndexityAdapter } from "./base.adapter";
 import { METADATA_REGEXP_PATTERN } from "../core/parsers";
 
@@ -28,6 +28,23 @@ export class HtmlIndexityAdapter extends BaseIndexityAdapter {
       .replace(METADATA_REGEXP_PATTERN, "");
   }
 
+  private buildTitleUiOfNode(node_: IndexNode) {
+    console.log({
+      title: node_.metadata?.title,
+      linkForPost: node_.metadata?.linkForPost,
+    });
+
+    if (node_.metadata?.linkForPost !== LinkForPostType.NONE) {
+      return `
+        <a class="link" href="${this.getHrefOfNode(node_)}">
+          <h3 class="title">${node_.metadata?.title}</h3>
+        </a>
+      `;
+    } else {
+      return `<h3 class="title">${node_.metadata?.title}</h3>`;
+    }
+  }
+
   private buildSingleNode(node_: IndexNode, outerTagName: string = "div") {
     let childrenContent = ``;
 
@@ -37,9 +54,7 @@ export class HtmlIndexityAdapter extends BaseIndexityAdapter {
 
     return `
       <${outerTagName} class="entry">
-        <a class="link" href="${this.getHrefOfNode(node_)}">
-          <h3 class="title">${node_.metadata?.title}</h3>
-        </a>
+        ${this.buildTitleUiOfNode(node_)}
         <span class="summary">${node_.metadata?.summary}</span>
 
         ${childrenContent}

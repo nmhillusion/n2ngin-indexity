@@ -16,9 +16,16 @@ function parseMetadata(rawData: unknown, path_: string): NodeMetadata {
 
   if ("object" == typeof rawData && rawData) {
     if ("linkForPost" in rawData) {
-      const rawLinkType = rawData["linkForPost"];
+      const rawLinkPostType = rawData["linkForPost"];
+      // console.log({
+      //   path_,
+      //   rawLinkPostType,
+      // });
 
-      if ("object" == typeof rawLinkType && !rawLinkType) {
+      if (
+        ["object", "string"].includes(typeof rawLinkPostType) &&
+        !rawLinkPostType
+      ) {
         linkForPost = LinkForPostType.NONE;
       }
     }
@@ -32,7 +39,7 @@ function parseMetadata(rawData: unknown, path_: string): NodeMetadata {
     summary: rawData["summary"] || "",
     title: rawData["title"] || parsedPath.name || parsedPath.dir,
     linkForPost,
-  };
+  } as NodeMetadata;
 }
 
 export function parseYamlToIndexNode(path_: string): IndexNode {
