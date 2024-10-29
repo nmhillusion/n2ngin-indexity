@@ -57,8 +57,11 @@ function getSummaryOfPost(
 
     if (fs.existsSync(postPath)) {
       return (
-        fs.readFileSync(postPath, "utf8").replace(/<.+?>/g, "").slice(0, 300) +
-        " ..."
+        fs
+          .readFileSync(postPath, "utf8")
+          .replace(/<.+?>/g, "")
+          .slice(0, 300)
+          .replace(/\s{2,}|\t/g, " ") + " ..."
       ).trim();
     }
   }

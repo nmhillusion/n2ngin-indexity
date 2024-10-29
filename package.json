@@ -1,6 +1,6 @@
 {
   "name": "@nmhillusion/n2ngin-indexity",
-  "version": "2024.10.3",
+  "version": "2024.10.4",
   "description": "Tool to build indexes for structure tree base on metadata",
   "main": "./dist/indexity.js",
   "types": "./dist/indexity.d.ts",
