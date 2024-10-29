@@ -5,6 +5,7 @@ export interface NodeMetadata {
   summary: string;
   tags: string[];
   author: string;
+  linkForPost?: LinkForPostType | string;
 }
 
 export interface IndexNode {
@@ -12,4 +13,9 @@ export interface IndexNode {
   metadata: NodeMetadata;
   rawData: unknown;
   children: IndexNode[];
+}
+
+export enum LinkForPostType {
+  NONE,
+  INDEX = "index.html",
 }

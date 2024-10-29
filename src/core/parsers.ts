@@ -1,7 +1,7 @@
 import * as fs from "fs";
 import * as jsYaml from "js-yaml";
 import * as path from "path";
-import { IndexNode, NodeMetadata } from "../model/node.model";
+import { IndexNode, LinkForPostType, NodeMetadata } from "../model/node.model";
 
 export const METADATA_REGEXP_PATTERN = /\bmeta(data)?\.ya?ml$/i;
 
@@ -12,6 +12,18 @@ function parseMetadata(rawData: unknown, path_: string): NodeMetadata {
     .filter(Boolean);
   const parsedPath = path.parse(path_);
 
+  let linkForPost: LinkForPostType | string = LinkForPostType.INDEX;
+
+  if ("object" == typeof rawData && rawData) {
+    if ("linkForPost" in rawData) {
+      const rawLinkType = rawData["linkForPost"];
+
+      if ("object" == typeof rawLinkType && !rawLinkType) {
+        linkForPost = LinkForPostType.NONE;
+      }
+    }
+  }
+
   return {
     author: rawData["author"],
     bannerPath: rawData["bannerPath"],
@@ -19,6 +31,7 @@ function parseMetadata(rawData: unknown, path_: string): NodeMetadata {
     publishDate: rawData["publishDate"],
     summary: rawData["summary"] || "",
     title: rawData["title"] || parsedPath.name || parsedPath.dir,
+    linkForPost,
   };
 }
 
@@ -70,6 +83,7 @@ export function parseWalkThroughDir(startPoint: string): IndexNode | null {
         summary: "",
         tags: [],
         title: parsedPath.name || parsedPath.dir,
+        linkForPost: null,
       },
       rawData: null,
     };
